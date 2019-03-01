@@ -1,0 +1,21 @@
+@import "./_colors.scss";
+
+/*Navbar*/
+header {
+  a {
+    color: $white;
+
+    &:hover {
+      color: $white;
+    }
+  }
+}
+
+.bg-red {
+  background-color: #cc0020;
+}
+
+/*Navbar*/
+.navbar-brand {
+  font-family: "SF bold";
+}

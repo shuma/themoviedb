@@ -1,0 +1,54 @@
+@import "./_colors.scss";
+
+@font-face {
+  font-family: "SF sans";
+  font-style: normal;
+  font-weight: 400;
+  src: url("../fonts/sf_sans.woff2") format("woff2");
+  /* Super Modern Browsers - sorry */
+}
+
+@font-face {
+  font-family: "SF bold";
+  font-style: bold;
+  font-weight: 600;
+  src: url("../fonts/sf_sansbold.woff2") format("woff2");
+  /* Super Modern Browsers - sorry */
+}
+
+body.fade {
+  opacity: 0;
+  transition: none;
+}
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "SF sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: $black !important;
+  opacity: 1;
+  transition: 0.7s opacity;
+}
+
+.h1,
+.h2,
+.h3,
+.h4,
+h1,
+h2,
+h3,
+h4 {
+  font-family: "SF bold";
+}
+
+p {
+  font-family: "SF sans";
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
