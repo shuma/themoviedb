@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import styled from "styled-components";
 import { Container, Row, Col } from "reactstrap";
 import Movie from "./Movie";
@@ -10,7 +10,7 @@ const Header = styled.h4`
   margin-top: 1.5em;
 `;
 
-export default class MoviesList extends Component {
+export default class MoviesList extends PureComponent {
   state = {
     movies: []
   };
@@ -31,6 +31,7 @@ export default class MoviesList extends Component {
 
   render() {
     const { movies } = this.state;
+    if (movies < 1) return <h1 data-testid="loading">Loading...</h1>;
     return (
       <>
         <Container>
@@ -47,4 +48,3 @@ export default class MoviesList extends Component {
     );
   }
 }
-

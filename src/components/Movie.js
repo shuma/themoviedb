@@ -6,24 +6,30 @@ import "react-lazy-load-image-component/src/effects/blur.css";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-const POSTER_PATH = "http://image.tmdb.org/t/p/w154";
+export const POSTER_PATH = "http://image.tmdb.org/t/p/w154";
 
-const Movie = ({ movie }) => (
-  <Link to={`/${movie.id}`}>
-    <Poster
-      src={`${POSTER_PATH}${movie.poster_path}`}
-      alt={`${movie.title}-img`}
-      effect="blur"
-    />
-    <MovieTitel>{movie.title}</MovieTitel>
-  </Link>
-);
+const Movie = ({ movie }) => {
+  if (!movie) return null;
+  return (
+    <Link to={`/${movie.id}`} data-testid="movie-link">
+      <Poster
+        src={`${POSTER_PATH}${movie.poster_path}`}
+        alt={`${movie.title}-img`}
+        effect="blur"
+        data-testid="movie-img"
+      />
+      <MovieTitel>{movie.title}</MovieTitel>
+    </Link>
+  );
+};
 
 export default Movie;
 
 Movie.propTypes = {
   movie: PropTypes.shape({
-    title: PropTypes.string.isRequired
+    title: PropTypes.string.isRequired,
+    poster_path: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired
   }).isRequired
 };
 
