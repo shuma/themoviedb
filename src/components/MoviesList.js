@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Container, Row, Col } from "reactstrap";
 import Movie from "./Movie";
@@ -10,10 +10,10 @@ const Header = styled.h4`
   margin-top: 1.5em;
 `;
 
-export default class MoviesList extends PureComponent {
-  state = {
-    movies: []
-  };
+const MoviesList = () => {
+
+
+ const [movies, setMovies] = useState([""])
 
   async componentDidMount() {
     try {
