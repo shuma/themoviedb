@@ -1,8 +1,7 @@
-import React, {  Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import axios from "axios";
-
 import { Poster } from "./Movie";
 
 const POSTER_PATH = "http://image.tmdb.org/t/p/w154";
@@ -10,66 +9,67 @@ const BACKDROP_PATH = "http://image.tmdb.org/t/p/w1280";
 
 const TMDB_URL = "https://api.themoviedb.org/3/";
 
-const  MovieDetail = (props) => {
+const MovieDetail = props => {
+  const [movie, setMovie] = useState({});
+  const [cast, setCast] = useState([]);
 
- const [movie, setMovie] = useState({});
- const [cast, setCast] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      await axios
+        .all([
+          axios.get(
+            `${TMDB_URL}movie/${props.match.params.id}?api_key=${
+              process.env.REACT_APP_MOVIEDB_API_KEY
+            }&language=en-US`
+          ),
+          axios.get(
+            `${TMDB_URL}movie/${props.match.params.id}/credits?api_key=${
+              process.env.REACT_APP_MOVIEDB_API_KEY
+            }`
+          )
+        ])
+        .then(
+          axios.spread((movie, credit) => {
+            setMovie(movie.data);
+            setCast(credit.data.cast);
+          })
+        );
+    };
+    fetchData();
+  }, []);
 
- useEffect(() => {  
-   const fetchData = async () => {
-   await axios
-     .all([
-       axios.get(
-         `${TMDB_URL}movie/${
-           props.match.params.id
-         }?api_key=${process.env.REACT_APP_MOVIEDB_API_KEY}&language=en-US`
-       ),
-       axios.get(
-         `${TMDB_URL}movie/${props.match.params.id}/credits?api_key=${process.env.REACT_APP_MOVIEDB_API_KEY}`
-       )
-     ])
-     .then(
-       axios.spread((movie, credit) => {
-        setMovie(movie.data)
-        setCast(credit.data.cast)
-       })
-     );
-   };
-   fetchData();
- }, [])
-
- let castList = cast.slice(0, 7).map((cst, idx) => {
-  return <CastName key={idx}>{cst.name}, </CastName>;
+  let castList = cast.slice(0, 7).map((cst, idx) => {
+    return <CastName key={idx}>{cst.name}, </CastName>;
   });
 
- return (
-  <Fragment>
-    <MovieWrapper backdrop={`${BACKDROP_PATH}${movie.backdrop_path}`}>
-      <MovieWrapperShadow />
-    </MovieWrapper>
-    <MovieInfo>
-      <Poster
-        src={`${POSTER_PATH}${movie.poster_path}`}
-        alt={`${movie.title}-img`}
-      />
-      <div>
-        <h1>{movie.title}</h1>
-        <p>{movie.overview}</p>
-        <CastHeader>Cast</CastHeader>
-        <CastWrapper>{castList} </CastWrapper>
-      </div>
-    </MovieInfo>
-  </Fragment>
-);
-}
+  return (
+    <Fragment>
+      <MovieWrapper backdrop={`${BACKDROP_PATH}${movie.backdrop_path}`}>
+        <MovieWrapperShadow />
+      </MovieWrapper>
+      <MovieInfo>
+        <Poster
+          src={`${POSTER_PATH}${movie.poster_path}`}
+          alt={`${movie.title}-img`}
+        />
+        <div>
+          <h1>{movie.title}</h1>
+          <p>{movie.overview}</p>
+          <CastHeader>Cast</CastHeader>
+          <CastWrapper>{castList} </CastWrapper>
+        </div>
+      </MovieInfo>
+    </Fragment>
+  );
+};
 
 MovieDetail.propTypes = {
-    match: PropTypes.shape({
-      params: PropTypes.shape({
-        id: PropTypes.string.isRequired
-      })
-    }).isRequired
-  };
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string.isRequired
+    })
+  }).isRequired
+};
 
 export default MovieDetail;
 
